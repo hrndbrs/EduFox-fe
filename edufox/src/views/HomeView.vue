@@ -1,18 +1,9 @@
 <script>
-import Navbar from '../components/Navbar.vue'
-
-export default {
-  components: {
-    Navbar
-  }
-}
+export default {}
 </script>
 
 <template>
   <main class="bgcolor h-screen" style="background-color: #f5f5f5">
-    <div id="bd1" class="bg-gradient-to-br from-amber-200 to-orange-300">
-      <Navbar />
-    </div>
     <div id="bd1">
       <v-carousel hide-delimiters show-arrows="hover">
         <v-carousel-item
