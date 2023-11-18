@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'CourseView'
+  name: 'CourseByIdView'
 }
 </script>

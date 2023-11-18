@@ -6,6 +6,12 @@ export default {
   ], theme: {
     extend: {},
   },
+  safelist: [
+    {
+      pattern: /bg-.+-.+/,
+      variants: ["hover"]
+    },
+  ],
   plugins: [],
 }
 
