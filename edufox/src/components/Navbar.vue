@@ -16,8 +16,11 @@ export default {
 
 <template>
   <!-- navbar goes here -->
-  <nav class="bg-white z-[1000] relative">
-    <div class="flex space-x-4 md:px-[10vw] md:justify-start justify-between px-5">
+  <nav
+    class="z-[1000] bg-white"
+    :class="$route.name === 'home' && 'md:sticky md:bg-transparent md:w-full top-0'"
+  >
+    <div class="flex space-x-4 md:px-[10vw] md:justify-start justify-between px-16">
       <!-- logo -->
       <div>
         <RouterLink to="/" class="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900">

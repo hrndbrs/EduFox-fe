@@ -25,19 +25,18 @@ export default {
           <div></div>
         </div>
       </div>
-      <div class="h-full w-6/12 overflow-hidden">
-        <div class="object-fill h-full overflow-hidden" id="borderLBradius">
-          <img
-            :src="'https://www.pandasecurity.com/en/mediacenter/src/uploads/2016/07/schoolchildren-using-mobile-phone-at-classroom.jpg'"
-            alt=""
-          />
-        </div>
+      <div class="h-full w-6/12">
+        <img
+          id="borderLBradius"
+          :src="'https://www.pandasecurity.com/en/mediacenter/src/uploads/2016/07/schoolchildren-using-mobile-phone-at-classroom.jpg'"
+          alt=""
+        />
       </div>
     </div>
   </section>
   <!-- list of cards -->
   <section id="bd" class="mt-10">
-    <div class="w-100 px-10" id="bd">
+    <div class="w-100 px-10 py-4" id="bd">
       <p class="font-medium mb-2 text-orange-300" id="font">Program Edufox</p>
       <p class="font-semibold text-xl" id="font">Course Tersedia Di Edufox</p>
     </div>
@@ -49,7 +48,7 @@ export default {
   </section>
 </template>
 
-<style>
+<style scoped>
 #bd {
   border: 0px solid red;
 }
