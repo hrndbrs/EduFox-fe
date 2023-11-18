@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>course {{ route.params }}</div>
 </template>
 
 <script>

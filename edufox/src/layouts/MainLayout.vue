@@ -1,8 +1,8 @@
 <template>
-  <NavBar />
-  <main class="h-screen">
+  <div class="h-screen overflow-y-scroll">
+    <NavBar />
     <RouterView />
-  </main>
+  </div>
 </template>
 
 <script>
