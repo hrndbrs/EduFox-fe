@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from "../layouts/MainLayout.vue"
 import AuthLayout from "../layouts/AuthLayout.vue"
-import Home from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import EnrollmentsView from "../views/EnrollmentsView.vue"
-import CourseView from "../views/CourseView.vue"
-import CourseByIdView from "../views/CourseByIdView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,26 +12,23 @@ const router = createRouter({
         {
           path: '/',
           name: 'home',
-          component: Home
+          component: () => import('../views/HomeView.vue')
         },
         {
           path: "/enrollments",
           name: "enrollments",
-          component: EnrollmentsView
+          component: () => import("../views/EnrollmentsView.vue")
         },
         {
           path: "/courses",
           name: "courses",
-          children: [
-            {
-              path: "/",
-              component: CourseView
-            },
-            {
-              path: "/:id",
-              component: CourseByIdView
-            }
-          ]
+          component: () => import("../views/CourseView.vue"),
+          props: route => ({ query: route.query }),
+        },
+        {
+          path: "/courses/:id",
+          name: "course-detail",
+          component: () => import("../views/CourseByIdView.vue")
         }
       ]
     },
@@ -48,12 +39,12 @@ const router = createRouter({
         {
           path: '/login',
           name: 'login',
-          component: LoginView
+          component: () => import('../views/LoginView.vue')
         },
         {
           path: '/register',
           name: 'register',
-          component: RegisterView
+          component: () => import('../views/RegisterView.vue')
         },
       ]
     }

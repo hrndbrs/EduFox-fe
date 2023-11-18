@@ -1,22 +1,23 @@
 <template>
-  <button :class="classes" :type="type || 'button'">
+  <v-btn
+    class="p-2 transition-all duration-200"
+    :color="buttonColor"
+    :loading="loading"
+    :block="block ?? true"
+    :class="className"
+    :type="type || 'button'"
+  >
     <slot></slot>
-  </button>
+  </v-btn>
 </template>
 
 <script>
 export default {
   name: 'CustBtn',
-  props: ['type', 'className', 'block', 'color'],
+  props: ['type', 'className', 'block', 'color', 'loading'],
   computed: {
     buttonColor() {
-      return this.color ? this.color : 'orange'
-    },
-    classes() {
-      const { buttonColor, className } = this
-      return `uppercase bg-${buttonColor}-500 hover:bg-${buttonColor}-400 w-full rounded-md p-2 font-semibold text-white transition-all duration-275 ${
-        className ? className : ''
-      }`
+      return this.color ? this.color : 'orange-darken-2'
     }
   }
 }

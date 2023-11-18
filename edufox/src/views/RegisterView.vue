@@ -37,6 +37,10 @@ export default {
     <AuthForm
       :fields="[
         {
+          label: 'Username',
+          name: 'username'
+        },
+        {
           label: 'Email',
           name: 'email'
         },
@@ -44,10 +48,6 @@ export default {
           label: 'Password',
           name: 'password',
           type: 'password'
-        },
-        {
-          label: 'Username',
-          name: 'usernname'
         }
       ]"
       buttonLabel="Register"

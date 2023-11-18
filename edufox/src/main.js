@@ -9,6 +9,7 @@ import router from './router'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
+import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'

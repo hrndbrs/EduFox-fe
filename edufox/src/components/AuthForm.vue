@@ -1,15 +1,16 @@
 <template>
   <form class="md:min-w-[25vw] md:max-w-xl max-md:w-full" @submit.prevent="() => onSubmit(input)">
     <v-text-field
+      variant="solo-inverted"
+      clearable
       v-for="(field, i) in fields"
       :key="i"
       :type="field.type || 'text'"
       :label="field.label"
-      :name="field.name || field.label"
-      @change.prevent="handleChange"
-    ></v-text-field>
+      v-model="input[field.name || field.label]"
+    />
     <slot></slot>
-    <CustBtn type="submit" color="emerald">{{ buttonLabel || 'Submit' }}</CustBtn>
+    <CustBtn type="submit" color="teal-accent-4">{{ buttonLabel || 'Submit' }}</CustBtn>
   </form>
 </template>
 
@@ -24,12 +25,6 @@ export default {
     }
   },
   props: ['fields', 'buttonLabel', 'onSubmit'],
-  methods: {
-    handleChange(e) {
-      const { name, value } = e.target
-      this.input[name] = value
-    }
-  },
   components: {
     CustBtn
   }
