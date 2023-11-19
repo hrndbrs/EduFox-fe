@@ -9,10 +9,9 @@ export default {
 </script>
 
 <template>
-  <!-- banner -->
-  <section class="h-5/6 flex flex-row-reverse" id="bd">
+  <section class="flex flex-row-reverse" id="bd">
     <div class="w-11/12 flex">
-      <div class="h-full w-6/12 z-10" id="font">
+      <div class="h-full w-6/12" id="font">
         <div class="py-40 border-black mr-40">
           <p class="font-semibold text-4xl text-blue-900" id="font">
             Online Course Terbaik Bagi Buah Hati Anda
@@ -34,7 +33,6 @@ export default {
       </div>
     </div>
   </section>
-  <!-- list of cards -->
   <section id="bd" class="mt-10">
     <div class="w-100 px-10 py-4" id="bd">
       <p class="font-medium mb-2 text-orange-300" id="font">Program Edufox</p>
