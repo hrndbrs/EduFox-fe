@@ -1,17 +1,24 @@
 <script>
 import { RouterLink } from 'vue-router'
+import client from '../api/config'
 import AuthForm from '../components/AuthForm.vue'
 import emailValidator from '../helpers/emailValidator'
 
 export default {
   name: 'LoginView',
-  data() {
-    return {}
-  },
   methods: {
-    handleSubmit(input) {
-      console.log(input)
-      console.log(emailValidator(input['Email/Username']))
+    handleSubmit(formInput) {
+      const input = { password: formInput.password }
+      if (emailValidator(formInput['Email/Username'])) input.email = formInput['Email/Username']
+      else input.username = formInput['Email/Username']
+
+      client
+        .post('/login', input)
+        .then(({ data }) => {
+          localStorage.setItem('access_token', data.access_token)
+          this.$router.push('/')
+        })
+        .catch((err) => console.log(JSON.stringify(err, null, 4)))
     }
   },
   components: {
