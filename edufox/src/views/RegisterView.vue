@@ -1,15 +1,18 @@
 <script>
 import { RouterLink } from 'vue-router'
+import client from '../api/config'
 import AuthForm from '../components/AuthForm.vue'
 
 export default {
   name: 'RegisterView',
-  data() {
-    return {}
-  },
   methods: {
     handleSubmit(input) {
-      console.log(input)
+      client
+        .post('/register', input)
+        .then(() => {
+          this.$router.push('/login')
+        })
+        .catch((err) => console.log(JSON.stringify(err, null, 4)))
     }
   },
   components: {
@@ -59,5 +62,3 @@ export default {
     </p>
   </div>
 </template>
-
-width="300" height="300"
