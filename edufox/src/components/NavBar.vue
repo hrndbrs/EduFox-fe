@@ -1,10 +1,12 @@
 <script>
 import { RouterLink } from 'vue-router'
+import Profile from './Profile.vue';
 export default {
   name: 'NavBar',
   components: {
-    RouterLink
-  },
+    RouterLink,
+    Profile
+},
   methods: {
     handleNavBurgerClick() {
       const menu = document.querySelector('.mobile-menu')
@@ -44,11 +46,13 @@ export default {
 
       <!-- secondary nav -->
       <div class="hidden md:flex items-center space-x-1">
-        <RouterLink
+        <!-- <RouterLink
           to="/register"
           class="py-2 px-8 bg-orange-500 hover:bg-orange-400 text-orange-900 hover:text-orange-800 rounded-full transition duration-300"
           >Register Now</RouterLink
-        >
+        > -->
+        <Profile />
+
       </div>
 
       <div class="md:hidden flex items-center">
