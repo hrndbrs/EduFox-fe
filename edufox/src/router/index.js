@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import useUserStore from '../stores/user'
 import MainLayout from "../layouts/MainLayout.vue"
-import Home from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-
+import AuthLayout from "../layouts/AuthLayout.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,24 +9,59 @@ const router = createRouter({
     {
       path: "/",
       component: MainLayout,
+      beforeEnter: (_to, _from, next) => {
+        useUserStore().checkCredentials()
+        next()
+      },
       children: [
         {
           path: '/',
           name: 'home',
-          component: Home
+          component: () => import('../views/HomeView.vue')
         },
+        {
+          path: "/enrollments",
+          name: "enrollments",
+          component: () => import("../views/EnrollmentsView.vue")
+        },
+        {
+          path: "/courses",
+          name: "courses",
+          component: () => import("../views/CourseView.vue"),
+          props: route => ({ query: route.query }),
+        },
+        {
+          path: "/courses/:id",
+          name: "course-details",
+          component: () => import("../views/CourseByIdView.vue")
+        },
+        {
+          path: "/enrollments/:id",
+          name: "course-detail",
+          component: () => import("../views/EnrollmentsId.vue")
+        }
       ]
     },
     {
-      path: '/login',
-      name: 'login',
-      component: LoginView
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: RegisterView
-    },
+      path: "/",
+      component: AuthLayout,
+      beforeEnter: (_to, _from, next) => {
+        if (localStorage.getItem("access_token")) return next("/")
+        next()
+      },
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: () => import('../views/LoginView.vue')
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: () => import('../views/RegisterView.vue')
+        },
+      ]
+    }
   ]
 })
 
