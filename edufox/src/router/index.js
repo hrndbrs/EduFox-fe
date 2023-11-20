@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import useUserStore from '../stores/user'
 import MainLayout from "../layouts/MainLayout.vue"
 import AuthLayout from "../layouts/AuthLayout.vue"
 
@@ -8,6 +9,10 @@ const router = createRouter({
     {
       path: "/",
       component: MainLayout,
+      beforeEnter: (_to, _from, next) => {
+        useUserStore().checkCredentials()
+        next()
+      },
       children: [
         {
           path: '/',
@@ -26,12 +31,12 @@ const router = createRouter({
           props: route => ({ query: route.query }),
         },
         {
-          path: "/coursess",
+          path: "/courses/:id",
           name: "course-details",
           component: () => import("../views/CourseByIdView.vue")
         },
         {
-          path: "/enroll",
+          path: "/enrollments/:id",
           name: "course-detail",
           component: () => import("../views/EnrollmentsId.vue")
         }
@@ -40,6 +45,10 @@ const router = createRouter({
     {
       path: "/",
       component: AuthLayout,
+      beforeEnter: (_to, _from, next) => {
+        if (localStorage.getItem("access_token")) return next("/")
+        next()
+      },
       children: [
         {
           path: '/login',
