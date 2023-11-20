@@ -1,15 +1,12 @@
 <script>
 import { RouterLink } from 'vue-router'
-import { mapState } from 'pinia'
-import useUserStore from '../stores/user'
+import Profile from './Profile.vue'
 
 export default {
   name: 'NavBar',
   components: {
-    RouterLink
-  },
-  computed: {
-    ...mapState(useUserStore, ['isLoggedIn', 'profile'])
+    RouterLink,
+    Profile
   },
   methods: {
     handleNavBurgerClick() {
@@ -48,25 +45,10 @@ export default {
 
       <div class="hidden md:flex items-center space-x-1">
         <RouterLink
-          v-if="!isLoggedIn"
           to="/register"
           class="py-2 px-8 bg-orange-500 hover:bg-orange-400 text-orange-900 hover:text-orange-800 rounded-full transition duration-300"
           >Register Now</RouterLink
         >
-        <div v-else class="flex gap-3 items-center cursor-pointer" role="button">
-          <span>
-            {{ profile.userUsername }}
-          </span>
-          <v-avatar>
-            <v-img
-              :src="
-                profile.userProfilePict ||
-                'https://img.icons8.com/ios/100/gender-neutral-user--v1.png'
-              "
-              alt="gender-neutral-user--v1"
-            />
-          </v-avatar>
-        </div>
       </div>
 
       <div class="md:hidden flex items-center">
