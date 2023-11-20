@@ -31,7 +31,7 @@ const router = createRouter({
           props: route => ({ query: route.query }),
         },
         {
-          path: "/courses/:id",
+          path: "/coursess",
           name: "course-detail",
           component: () => import("../views/CourseByIdView.vue")
         }

@@ -1,9 +1,11 @@
 <script>
 import CardHome from '../components/CardHome.vue'
+import { RouterLink } from 'vue-router'
 
 export default {
   components: {
-    CardHome
+    CardHome,
+    RouterLink
   }
 }
 </script>
@@ -38,10 +40,13 @@ export default {
       <p class="font-medium mb-2 text-orange-300" id="font">Program Edufox</p>
       <p class="font-semibold text-xl" id="font">Course Tersedia Di Edufox</p>
     </div>
-    <div class="pb-28 pt-5 flex flex-row justify-evenly">
+    <div class="pb-13 pt-5 flex flex-row justify-evenly">
       <CardHome />
       <CardHome />
       <CardHome />
+    </div>
+    <div id="bd" class="text-center mb-10">
+      <RouterLink class="bg-orange-100 border-orange-100 border-2 rounded" to="/courses">See All </RouterLink>
     </div>
   </section>
 </template>
