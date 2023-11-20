@@ -31,12 +31,12 @@ const router = createRouter({
           props: route => ({ query: route.query }),
         },
         {
-          path: "/coursess",
+          path: "/courses/:id",
           name: "course-details",
           component: () => import("../views/CourseByIdView.vue")
         },
         {
-          path: "/enroll",
+          path: "/enrollments/:id",
           name: "course-detail",
           component: () => import("../views/EnrollmentsId.vue")
         }
