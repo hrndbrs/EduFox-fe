@@ -9,26 +9,24 @@ export default {
     handleNavBurgerClick() {
       const menu = document.querySelector('.mobile-menu')
       menu.classList.toggle('opacity-0')
+      menu.classList.toggle('hidden')
     }
   }
 }
 </script>
 
 <template>
-  <!-- navbar goes here -->
   <nav
-    class="z-[1000] bg-white"
+    class="relative z-[1000] bg-white"
     :class="$route.name === 'home' && 'md:sticky md:bg-transparent md:w-full top-0'"
   >
     <div class="flex space-x-4 md:px-[10vw] md:justify-start justify-between px-16">
-      <!-- logo -->
       <div>
         <RouterLink to="/" class="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900">
           <span class="font-bold">Better Dev</span>
         </RouterLink>
       </div>
 
-      <!-- primary nav -->
       <div class="hidden md:flex items-center space-x-4 flex-1 justify-center">
         <RouterLink
           to="/courses"
@@ -42,7 +40,6 @@ export default {
         >
       </div>
 
-      <!-- secondary nav -->
       <div class="hidden md:flex items-center space-x-1">
         <RouterLink
           to="/register"
@@ -71,8 +68,7 @@ export default {
       </div>
     </div>
 
-    <!-- mobile menu -->
-    <div class="mobile-menu md:hidden opacity-0 h-0 transition-all duration-300">
+    <div class="mobile-menu hidden opacity-0 h-0 transition-all duration-300 z-[1000]">
       <RouterLink to="/courses" class="block p-3 text-s align-middle">Courses</RouterLink>
       <RouterLink to="/enrollments" class="block p-3 text-s align-middle">Enrollments</RouterLink>
       <RouterLink to="/Register" class="block p-3 text-s align-middle">Register Now</RouterLink>

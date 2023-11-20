@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-scroll">
+  <div>
     <NavBar />
     <RouterView />
   </div>
