@@ -74,7 +74,12 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.input)
+      if (!this.input.name) this.input.name = ''
+
+      this.$router.push({
+        path: '/courses',
+        query: { ...this.input }
+      })
     }
   }
 }
