@@ -15,6 +15,7 @@ export default {
       <p class="text-gray-700 text-base">
         {{ course.description }}
       </p>
+      <slot name="additional"></slot>
     </div>
     <div class="px-6 pt-4 pb-2">
       <span

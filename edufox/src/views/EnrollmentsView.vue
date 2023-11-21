@@ -2,6 +2,14 @@
   <div class="max-w-4xl items-center mx-auto flex flex-col gap-3">
     <div class="flex flex-wrap gap-3 justify-center">
       <CardHome v-for="(enrollment, i) in enrollments" :key="i" :course="enrollment.Course">
+        <template #additional>
+          <div class="pt-3 flex flex-col gap-1">
+            <p class="font-semibold">Progress:</p>
+            <v-progress-linear :model-value="getProgress(enrollment)" color="amber" height="25">
+              {{ getProgress(enrollment) }}%
+            </v-progress-linear>
+          </div>
+        </template>
         <template #action>
           <div class="py-3 px-9">
             <RouterLink :to="`/enrollments/${enrollment.Course.id}`">
@@ -51,6 +59,9 @@ export default {
           this.currentPage = +data.currentPage
         })
         .catch((err) => console.log(JSON.stringify(err, null, 4)))
+    },
+    getProgress(enrollment) {
+      return Math.round((+enrollment.Chapter.chapterNo / enrollment.Course.Chapters.length) * 100)
     }
   },
   watch: {
