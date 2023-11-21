@@ -33,6 +33,15 @@ const useUserStore = defineStore("user", {
             localStorage.removeItem("access_token")
             this.checkCredentials()
         },
+
+        async enrollCourse(courseId) {
+            await client.post("/enrollments/" + courseId, {}, {
+                headers: {
+                    access_token: localStorage.getItem("access_token")
+                }
+            })
+        },
+
         async midTrans() {
             try {
                 const { data } = await client.post("/transaction", null, {

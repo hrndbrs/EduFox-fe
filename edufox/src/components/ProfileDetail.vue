@@ -51,6 +51,7 @@
         :onClick="
           () => {
             handleLogout()
+            $router.push('/')
             if (callback) callback()
           }
         "

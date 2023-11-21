@@ -18,7 +18,6 @@ export default {
     current() {
       const query = this.$route.query
       this.$router.push({
-        path: '/courses',
         query: { ...query, page: this.current }
       })
     }
