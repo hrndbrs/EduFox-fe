@@ -22,7 +22,8 @@ const router = createRouter({
         {
           path: "/enrollments",
           name: "enrollments",
-          component: () => import("../views/EnrollmentsView.vue")
+          component: () => import("../views/EnrollmentsView.vue"),
+          props: route => ({ query: route.query }),
         },
         {
           path: "/courses",
@@ -33,7 +34,7 @@ const router = createRouter({
         {
           path: "/courses/:id",
           name: "course-details",
-          component: () => import("../views/CourseByIdView.vue")
+          component: () => import("../views/CourseByIdView.vue"),
         },
         {
           path: "/enrollments/:id",

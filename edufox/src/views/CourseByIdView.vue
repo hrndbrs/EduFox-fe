@@ -1,33 +1,70 @@
 <script>
+import { mapState, mapActions } from 'pinia'
+import client from '../api/config'
+import useUserStore from '../stores/user'
+import CustBtn from '../components/CustBtn.vue'
+
 export default {
   name: 'CourseByIdView',
   data() {
     return {
-      panel: [0, 1, 2, 3]
+      course: { Chapters: [] }
     }
+  },
+  components: {
+    CustBtn
+  },
+  computed: {
+    ...mapState(useUserStore, ['isLoggedIn', 'profile']),
+    userCanEnroll() {
+      return this.isLoggedIn && (this.course.isPremium ? this.profile.userPremium : true)
+    }
+  },
+  methods: {
+    ...mapActions(useUserStore, ['enrollCourse']),
+    getCourseDetail() {
+      client
+        .get('/course/' + this.$route.params.id)
+        .then(({ data }) => {
+          // console.log(data)
+          this.course = data.data
+        })
+        .catch((err) => console.log(err))
+    },
+    addEnrollment() {
+      this.enrollCourse(this.course.id)
+        .then(() => this.$router.push('/enrollments'))
+        .catch((err) => console.log(err))
+    }
+  },
+  created() {
+    this.getCourseDetail()
   }
 }
 </script>
 
 <template>
-  <!-- <div>course {{ route.params }}</div> -->
   <main class="flex" style="background-color: #f5f7fa">
     <!-- left-section -->
-    <section class="w-11/12 h-100 flex justify-center" id="bd">
+    <section class="w-11/12 h-100 flex justify-center sticky top-4" id="bd">
       <div class="w-11/12 h-100 ml-5 py-10" id="bd">
         <div class="mb-1" id="bd">
-          <p class="text-4xl">Title Courses</p>
+          <p class="text-4xl">{{ course.name }}</p>
         </div>
         <div style="background-color: #fff" class="rounded" id="bd">
-          <div class="flex justify-start">
-            <img :src="'https://placehold.co/280x200'" alt="" class="ml-2 mt-2 " />
-            <div class="py-5 px-5" id="bd">
+          <div class="flex justify-start p-2">
+            <div class="w-[18rem] aspect-[7/5] bg-slate-400 flex">
+              <img :src="course.imgUrl" alt="" class="object-cover" />
+            </div>
+            <div class="py-5 px-5 flex-1" id="bd">
+              <p v-if="course.isPremium">Premium</p>
               <p class="font-semibold">Description</p>
               <p class="pt-1">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad maxime totam cupiditate
-                incidunt unde? Architecto minima quis id voluptate dolorem atque deleniti provident
-                deserunt quisquam voluptatem? Ducimus ut odio fugit.
+                {{ course.description }}
               </p>
+              <CustBtn className="mt-6" v-if="userCanEnroll" :onClick="addEnrollment"
+                >Enroll Now</CustBtn
+              >
             </div>
           </div>
           <div class="flex justify-start">
@@ -36,14 +73,18 @@ export default {
               <div>
                 <div class="d-flex align-center flex-column my-auto">
                   <div class="text-h2 mt-5">
-                    3.5
+                    {{ course.rating }}
                     <span class="text-h6 ml-n3">/5</span>
                   </div>
-  
-                  <v-rating :model-value="3.5" color="yellow-darken-3" half-increments readonly></v-rating>
+
+                  <v-rating
+                    :model-value="course.rating"
+                    color="yellow-darken-3"
+                    half-increments
+                    readonly
+                  ></v-rating>
                   <div class="px-3">3,360 ratings</div>
                 </div>
-                
               </div>
             </div>
             <!-- right-side -->
@@ -56,11 +97,11 @@ export default {
                       class="mx-n5"
                       color="yellow-darken-3"
                       height="20"
-                      :style="{width: '350px'}"
-                      rounded 
+                      :style="{ width: '350px' }"
+                      rounded
                     ></v-progress-linear>
 
-                    <template v-slot:prepend class="">
+                    <template v-slot:prepend>
                       <span>{{ rating }}</span>
                       <v-icon icon="mdi-star" class="mx-3"></v-icon>
                     </template>
@@ -83,11 +124,15 @@ export default {
     <section id="bd" class="w-3/6 h-100">
       <div class="ml-5 py-24 w-11/12 h-100" id="bd">
         <div class="mb-5" id="bd">
-          <p class="text-xl">Table Of Content</p>
+          <p class="text-xl">Table Of Contents</p>
         </div>
         <div class="">
-          <v-expansion-panels v-model="panel" multiple>
-            <v-expansion-panel>
+          <v-expansion-panels multiple>
+            <v-expansion-panel v-for="(panel, i) in course.Chapters" :key="i">
+              <v-expansion-panel-title>Chapter {{ panel.chapterNo }}</v-expansion-panel-title>
+              <v-expansion-panel-text> {{ panel.name }} </v-expansion-panel-text>
+            </v-expansion-panel>
+            <!-- <v-expansion-panel>
               <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
               <v-expansion-panel-text> Some content </v-expansion-panel-text>
             </v-expansion-panel>
@@ -106,11 +151,7 @@ export default {
             <v-expansion-panel>
               <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
               <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
-              <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel>
+            </v-expansion-panel> -->
           </v-expansion-panels>
         </div>
         <div>

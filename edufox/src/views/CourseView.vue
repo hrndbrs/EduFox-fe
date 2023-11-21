@@ -26,7 +26,7 @@ export default {
       courses: [],
       courseLoading: true,
       numberOfPages: 0,
-      currentPage: this.$route.page || 1
+      currentPage: this.query.page || 1
     }
   },
   props: ['query'],
