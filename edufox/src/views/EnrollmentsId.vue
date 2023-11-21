@@ -1,17 +1,18 @@
 <script>
+import Feedback from '../components/Feedback.vue';
 import VideoPlayer from '../components/VideoPlayer.vue'
 
 export default {
   name: 'EnrollmentId',
   data() {
     return {
-      panel: [0, 1, 2, 3],
-      rating: 3.5
+      panel: [0, 1, 2, 3]
     }
   },
   components: {
-    VideoPlayer
-  }
+    VideoPlayer,
+    Feedback
+}
 }
 </script>
 
@@ -42,6 +43,7 @@ export default {
           </div>
           <div class="flex justify-end pr-5" id="bd">
             <button
+            type="submit"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-5"
             >
               Next
@@ -49,41 +51,7 @@ export default {
           </div>
         </div>
         <!-- Feedback & rating -->
-        <div class="mt-10">
-          <div>
-            <p class="ml-1 text-xl">Feedback</p>
-          </div>
-          <div id="bd" class="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-2">
-            <div class="mx-2">
-              <div class="">
-                <v-rating
-                  v-model="rating"
-                  hover
-                  half-increments
-                  color="orange-lighten-1"
-                  class="mt-2"
-                ></v-rating>
-              </div>
-              <div class="mt-2">
-                <v-textarea
-                  label="Comment About This Course"
-                  auto-grow
-                  variant="outlined"
-                  rows="3"
-                  row-height="25"
-                  shaped
-                ></v-textarea>
-              </div>
-              <div class="flex justify-end pr-5" id="bd">
-                <button
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-5"
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Feedback/>
       </div>
     </section>
 
@@ -161,6 +129,6 @@ export default {
 
 <style scoped>
 #bd {
-  border: 0px solid;
+  border: 1px solid;
 }
 </style>
