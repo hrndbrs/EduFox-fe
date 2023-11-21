@@ -1,12 +1,19 @@
 <script>
 import { RouterLink } from 'vue-router'
+import { mapState } from 'pinia'
+import useUserStore from '../stores/user'
 import Profile from './Profile.vue'
+import ProfileDetail from './ProfileDetail.vue'
 
 export default {
   name: 'NavBar',
   components: {
     RouterLink,
-    Profile
+    Profile,
+    ProfileDetail
+  },
+  computed: {
+    ...mapState(useUserStore, ['isLoggedIn', 'profile'])
   },
   methods: {
     handleNavBurgerClick() {
@@ -45,10 +52,12 @@ export default {
 
       <div class="hidden md:flex items-center space-x-1">
         <RouterLink
+          v-if="!isLoggedIn"
           to="/register"
           class="py-2 px-8 bg-orange-500 hover:bg-orange-400 text-orange-900 hover:text-orange-800 rounded-full transition duration-300"
           >Register Now</RouterLink
         >
+        <Profile v-else :profile="profile" />
       </div>
 
       <div class="md:hidden flex items-center">
@@ -74,7 +83,10 @@ export default {
     <div class="mobile-menu hidden opacity-0 h-0 transition-all duration-300 z-[1000]">
       <RouterLink to="/courses" class="block p-3 text-s align-middle">Courses</RouterLink>
       <RouterLink to="/enrollments" class="block p-3 text-s align-middle">Enrollments</RouterLink>
-      <RouterLink to="/Register" class="block p-3 text-s align-middle">Register Now</RouterLink>
+      <RouterLink v-if="!isLoggedIn" to="/register" class="block p-3 text-s align-middle"
+        >Register Now</RouterLink
+      >
+      <ProfileDetail v-else :profile="profile" :mobile="true" :callback="handleNavBurgerClick" />
     </div>
   </nav>
 </template>

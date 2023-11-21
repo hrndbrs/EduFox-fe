@@ -1,24 +1,24 @@
 <script>
 import { RouterLink } from 'vue-router'
-import client from '../api/config'
+import { mapActions } from 'pinia'
+import useUserStore from '../stores/user'
 import AuthForm from '../components/AuthForm.vue'
 import emailValidator from '../helpers/emailValidator'
 
 export default {
   name: 'LoginView',
   methods: {
-    handleSubmit(formInput) {
+    ...mapActions(useUserStore, ['handleLogin']),
+    async handleSubmit(formInput) {
       const input = { password: formInput.password }
       if (emailValidator(formInput['Email/Username'])) input.email = formInput['Email/Username']
       else input.username = formInput['Email/Username']
-
-      client
-        .post('/login', input)
-        .then(({ data }) => {
-          localStorage.setItem('access_token', data.access_token)
-          this.$router.push('/')
-        })
-        .catch((err) => console.log(JSON.stringify(err, null, 4)))
+      try {
+        await this.handleLogin(input)
+        this.$router.push('/')
+      } catch (err) {
+        console.log(JSON.stringify(err, null, 4))
+      }
     }
   },
   components: {
@@ -63,5 +63,3 @@ export default {
     />
   </div>
 </template>
-
-width="300" height="300"

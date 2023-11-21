@@ -6,6 +6,11 @@
     :block="block ?? true"
     :class="className"
     :type="type || 'button'"
+    @click="
+      () => {
+        if (onClick) onClick()
+      }
+    "
   >
     <slot></slot>
   </v-btn>
@@ -14,7 +19,7 @@
 <script>
 export default {
   name: 'CustBtn',
-  props: ['type', 'className', 'block', 'color', 'loading'],
+  props: ['type', 'className', 'block', 'color', 'loading', 'onClick'],
   computed: {
     buttonColor() {
       return this.color ? this.color : 'orange-darken-2'
