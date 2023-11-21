@@ -1,4 +1,6 @@
 <script>
+import VideoPlayer from '../components/VideoPlayer.vue'
+
 export default {
   name: 'EnrollmentId',
   data() {
@@ -6,6 +8,9 @@ export default {
       panel: [0, 1, 2, 3],
       rating: 3.5
     }
+  },
+  components: {
+    VideoPlayer
   }
 }
 </script>
@@ -15,10 +20,15 @@ export default {
     <!-- left-section -->
     <section class="w-11/12 h-100 flex justify-center" id="bd">
       <div class="w-11/12 h-100 ml-5 py-10" id="bd">
+        <VideoPlayer />
         <div class="mb-1" id="bd">
           <p class="text-4xl">Title Courses</p>
         </div>
-        <div style="background-color: #fff" class="rounded shadow-[0_8px_30px_rgb(0,0,0,0.12)]" id="bd">
+        <div
+          style="background-color: #fff"
+          class="rounded shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+          id="bd"
+        >
           <div class="flex justify-center">
             <img :src="'https://placehold.co/800x500'" alt="" class="pt-5" />
           </div>
@@ -65,12 +75,12 @@ export default {
                 ></v-textarea>
               </div>
               <div class="flex justify-end pr-5" id="bd">
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-5"
-            >
-              Submit
-            </button>
-          </div>
+                <button
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-5"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         </div>
