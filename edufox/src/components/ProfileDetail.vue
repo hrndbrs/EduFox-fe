@@ -25,7 +25,15 @@
 
     <v-divider></v-divider>
     <div class="justify-center flex">
-      <v-btn variant="text" color="blue" size="small">Change Picture</v-btn>
+      <input
+        type="file"
+        id="file"
+        class="hidden"
+        accept="image/*"
+        @change="changePicture"
+        enctype="multipart/form-data"
+      />
+      <v-btn variant="text" color="blue" size="small" @click="clickPicture">Change Picture</v-btn>
     </div>
     <div class="mt-2 text-center">
       <p class="text-[13px]">{{ profile.userUsername }}</p>
@@ -62,18 +70,45 @@
 </template>
 
 <script>
+import client from '../api/config'
 import CustBtn from './CustBtn.vue'
 import { mapActions } from 'pinia'
 import useUserStore from '../stores/user'
+import axios from 'axios'
 
 export default {
   name: 'ProfileDetail',
   props: ['profile', 'callback', 'mobile'],
+  data() {
+    return {
+      changePict: null
+    }
+  },
   components: {
     CustBtn
   },
   methods: {
-    ...mapActions(useUserStore, ['handleLogout', 'midTrans'])
+    ...mapActions(useUserStore, ['handleLogout', 'midTrans', 'checkCredentials']),
+    clickPicture() {
+      document.getElementById('file').click()
+    },
+    async changePicture(event) {
+      try {
+        this.changePict = event.target.files?.[0]
+
+        const payload = new FormData()
+        payload.append('image', this.changePict)
+        const { data } = await client.patch('/user/', payload, {
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+        localStorage.setItem('access_token', data.access_token)
+        this.checkCredentials()
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 }
 </script>
