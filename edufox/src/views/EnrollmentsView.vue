@@ -10,14 +10,22 @@
               color="amber"
               height="25"
             >
-              {{ isFinished(enrollment) ? 100 : getProgress(enrollment) }}%
+              {{ `${finishedChapters(enrollment)} of ${totalChapters(enrollment)} Chapter(s)` }}
             </v-progress-linear>
           </div>
         </template>
         <template #action>
           <div class="py-3 px-6">
             <RouterLink :to="`/enrollments/${enrollment.Course.id}/${enrollment.curChapterId}`">
-              <CustBtn> {{ isFinished(enrollment) ? 'Review' : 'Continue This Lesson' }} </CustBtn>
+              <CustBtn>
+                {{
+                  isFinished(enrollment)
+                    ? 'Review'
+                    : isOnProgress(enrollment)
+                      ? 'Continue This Lesson'
+                      : 'Start Learning'
+                }}
+              </CustBtn>
             </RouterLink>
           </div>
         </template>
@@ -61,19 +69,27 @@ export default {
           this.enrollments = data.data
           this.numberOfPages = data.totalPage
           this.currentPage = +data.currentPage
-
-          // console.log(data)
-          // console.log(this.numberOfPages)
         })
         .catch((err) => console.log(JSON.stringify(err, null, 4)))
     },
     getProgress(enrollment) {
       return Math.round(
-        ((+enrollment.Chapter.chapterNo - 1) / enrollment.Course.Chapters.length) * 100
+        ((+enrollment.Chapter.chapterNo - 1) / this.totalChapters(enrollment)) * 100
       )
+    },
+    isOnProgress(enrollment) {
+      return enrollment.status === 'on progress'
     },
     isFinished(enrollment) {
       return enrollment.status === 'finished'
+    },
+    totalChapters(enrollment) {
+      return enrollment.Course.Chapters.length
+    },
+    finishedChapters(enrollment) {
+      return this.isFinished(enrollment)
+        ? this.totalChapters(enrollment)
+        : +enrollment.Chapter.chapterNo - 1
     }
   },
   watch: {

@@ -12,11 +12,8 @@
         <div class="col-4 lg:col-lg-4 lg:order-lg-2">
           <div class="mt-[-3rem] mb-4 mb-lg-0">
             <img
-              :src="
-                profile.userProfilePict ||
-                'https://img.icons8.com/ios/100/gender-neutral-user--v1.png'
-              "
-              class="rounded-full border-4 border-solid border-white w-20 h-20 bg-white"
+              :src="profile.userProfilePict || '/avatar.jpeg'"
+              class="rounded-full border-4 border-solid border-white w-20 h-20 bg-white object-cover"
             />
           </div>
         </div>
@@ -38,6 +35,7 @@
     <div class="mt-2 text-center">
       <p class="text-[13px]">{{ profile.userUsername }}</p>
       <p class="text-[13px]">{{ profile.userEmail }}</p>
+      <p class="text-[13px] font-semibold">{{ profile.userPoint }} pts</p>
     </div>
     <div class="justify-center flex mt-2">
       <v-btn

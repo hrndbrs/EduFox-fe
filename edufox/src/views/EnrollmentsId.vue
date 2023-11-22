@@ -1,4 +1,5 @@
 <script>
+import Feedback from '../components/Feedback.vue'
 import client from '../api/config'
 import VideoPlayer from '../components/VideoPlayer.vue'
 
@@ -14,7 +15,8 @@ export default {
     }
   },
   components: {
-    VideoPlayer
+    VideoPlayer,
+    Feedback
   },
   computed: {
     totalChapter() {
@@ -110,7 +112,7 @@ export default {
       <div class="w-11/12 h-100 ml-5 py-10" id="bd">
         <div class="mb-8" id="bd">
           <!-- <p class="text-4xl">{{ `${courseName} : ${chapter.name}` }}</p> -->
-          <p class="text-2xl font-extralight">{{ course.name }} :</p>
+          <p class="text-2xl font-extralight">{{ `${course.name} #${chapter.chapterNo} :` }}</p>
           <p class="text-4xl font-medium">{{ chapter.name }}</p>
         </div>
         <div
@@ -142,7 +144,9 @@ export default {
           </div>
           <v-expansion-panels variant="accordion">
             <v-expansion-panel>
-              <v-expansion-panel-title class="font-semibold">Description</v-expansion-panel-title>
+              <v-expansion-panel-title class="font-semibold text-7xl"
+                ><span class="text-xl"> Description </span>
+              </v-expansion-panel-title>
               <v-expansion-panel-text class="p-4 text-justify">
                 {{ chapter.description }}</v-expansion-panel-text
               >
@@ -150,41 +154,7 @@ export default {
           </v-expansion-panels>
         </div>
         <!-- Feedback & rating -->
-        <!-- <div class="mt-10">
-          <div>
-            <p class="ml-1 text-xl">Feedback</p>
-          </div>
-          <div id="bd" class="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-2">
-            <div class="mx-2">
-              <div class="">
-                <v-rating
-                  v-model="rating"
-                  hover
-                  half-increments
-                  color="orange-lighten-1"
-                  class="mt-2"
-                ></v-rating>
-              </div>
-              <div class="mt-2">
-                <v-textarea
-                  label="Comment About This Course"
-                  auto-grow
-                  variant="outlined"
-                  rows="3"
-                  row-height="25"
-                  shaped
-                ></v-textarea>
-              </div>
-              <div class="flex justify-end pr-5" id="bd">
-                <button
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-5"
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div> -->
+        <Feedback v-if="isLastChapter && course.status === 'finished'" :courseId="course.id" />
       </div>
     </section>
 
@@ -192,7 +162,7 @@ export default {
     <section id="bd" class="w-3/6 h-100">
       <div class="ml-5 py-24 w-11/12 h-100" id="bd">
         <div id="bd">
-          <p class="text-xl">Table Of Contents</p>
+          <p class="text-xl font-semibold">Table Of Contents</p>
         </div>
         <div class="">
           <v-list density="compact">
