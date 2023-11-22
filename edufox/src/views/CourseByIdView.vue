@@ -63,15 +63,19 @@ export default {
             <div class="w-[18rem] aspect-[7/5] bg-slate-400 flex">
               <img :src="course.imgUrl" alt="" class="object-cover" />
             </div>
-            <div class="py-5 px-5 flex-1" id="bd">
-              <p v-if="course.isPremium">Premium</p>
-              <p class="font-semibold">Description</p>
-              <p class="pt-1">
+            <div class="py-5 px-5 flex-1">
+              <p v-if="course.isPremium" class="text-emerald-600 font-semibold">Premium</p>
+              <p class="font-semibold text-lg" :class="course.isPremium && 'mt-2'">Description</p>
+              <p>
                 {{ course.description }}
               </p>
               <CustBtn className="mt-6" v-if="userCanEnroll" :onClick="addEnrollment"
                 >Enroll Now</CustBtn
               >
+              <CustBtn className="mt-6" v-else-if="isLoggedIn" color="red-lighten-2"
+                >Only Premium User Can Enroll To This Course</CustBtn
+              >
+              <CustBtn className="mt-6" v-else color="red-lighten-2">Login To Enroll</CustBtn>
             </div>
           </div>
           <div class="flex justify-start">

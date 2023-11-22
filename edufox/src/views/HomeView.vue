@@ -1,8 +1,9 @@
 <script>
 import { RouterLink } from 'vue-router'
+import client from '../api/config'
+import CallToAction from '../components/CallToAction.vue'
 import CustBtn from '../components/CustBtn.vue'
 import CardHome from '../components/CardHome.vue'
-import client from '../api/config'
 
 export default {
   data() {
@@ -13,7 +14,8 @@ export default {
   components: {
     CardHome,
     RouterLink,
-    CustBtn
+    CustBtn,
+    CallToAction
   },
   created() {
     client.get('/course').then(({ data }) => {
@@ -48,12 +50,12 @@ export default {
       </div>
     </div>
   </section>
-  <section id="bd" class="mt-10">
+  <section class="flex flex-col items-center mt-10">
     <div class="w-100 px-10 py-4" id="bd">
       <p class="font-medium mb-2 text-orange-400" id="font">Program Edufox</p>
       <p class="font-semibold text-xl" id="font">Course Tersedia Di Edufox</p>
     </div>
-    <div class="pb-13 pt-5 flex flex-row justify-evenly max-w-7xl mx-auto">
+    <div class="p-5 flex flex-row gap-8 justify-evenly flex-wrap max-w-7xl mx-auto">
       <CardHome v-for="(course, i) in courses" :key="i" :course="course">
         <template #action>
           <div class="py-3 px-6">
@@ -64,15 +66,17 @@ export default {
         </template>
       </CardHome>
     </div>
-    <div id="bd" class="text-center mb-10">
-      <RouterLink class="rounded" to="/courses">See All </RouterLink>
+    <div
+      class="mb-10 hover:scale-110 hover:-translate-y-1 hover:font-semibold transition-all duration-300"
+    >
+      <RouterLink class="rounded" to="/courses">See All</RouterLink>
     </div>
+    <CallToAction />
   </section>
 </template>
 
 <style scoped>
 img {
-  /* background-image: url('https://www.pandasecurity.com/en/mediacenter/src/uploads/2016/07/schoolchildren-using-mobile-phone-at-classroom.jpg'); */
   width: 650px;
   height: 615px;
   object-fit: cover;

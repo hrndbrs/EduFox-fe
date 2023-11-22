@@ -33,7 +33,11 @@ export default {
     <div class="flex space-x-4 md:px-[10vw] md:justify-start justify-between px-16">
       <div>
         <RouterLink to="/" class="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900">
-          <span class="font-bold">Better Dev</span>
+          <div class="w-12 rounded-full bg-white aspect-square">
+            <v-img class="drop-shadow-xl" src="/logo.svg" cover />
+          </div>
+          <span class="text-black">by </span>
+          <span class="font-bold">BetterDev</span>
         </RouterLink>
       </div>
 
