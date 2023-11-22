@@ -4,6 +4,7 @@ import { mapActions } from 'pinia'
 import useUserStore from '../stores/user'
 import AuthForm from '../components/AuthForm.vue'
 import emailValidator from '../helpers/emailValidator'
+import { toast } from 'vue3-toastify'
 
 export default {
   name: 'LoginView',
@@ -15,9 +16,25 @@ export default {
       else input.username = formInput['Email/Username']
       try {
         await this.handleLogin(input)
+        toast('Welcome To EduTech', {
+          position: 'top-center',
+          theme: 'colored',
+          type: 'success',
+          pauseOnHover: true,
+          autoClose: 2500
+        }).showToast()
         this.$router.push('/')
       } catch (err) {
         console.log(JSON.stringify(err, null, 4))
+        if(err.response.data.message) {
+          toast(`${err.response.data.message}`, {
+          position: 'top-center',
+          theme: 'colored',
+          type: "error",
+          pauseOnHover: false,
+          autoClose: 2500
+        })
+        }
       }
     }
   },
@@ -44,7 +61,7 @@ export default {
         {
           label: 'Password',
           name: 'password',
-          type: 'password'
+          type: 'password',
         }
       ]"
       buttonLabel="Login"

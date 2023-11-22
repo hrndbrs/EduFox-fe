@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import client from '../api/config'
 import AuthForm from '../components/AuthForm.vue'
+import { toast } from 'vue3-toastify'
 
 export default {
   name: 'RegisterView',
@@ -9,10 +10,28 @@ export default {
     handleSubmit(input) {
       client
         .post('/register', input)
-        .then(() => {
+        .then(({ data }) => {
+          toast("You're Account Has Been Create", {
+            position: 'top-center',
+            theme: 'colored',
+            type: 'success',
+            pauseOnHover: true
+          })
           this.$router.push('/login')
         })
-        .catch((err) => console.log(JSON.stringify(err, null, 4)))
+        .catch((err) => {
+          console.log(err)
+          if(err.response.data.message) {
+          toast(`${err.response.data.message}`, {
+          position: 'top-center',
+          theme: 'colored',
+          type: "error",
+          pauseOnHover: false,
+          autoClose: 2500
+        })
+        }
+          console.log(JSON.stringify(err, null, 4))
+        })
     }
   },
   components: {

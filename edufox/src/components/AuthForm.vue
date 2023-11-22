@@ -7,6 +7,7 @@
       :key="i"
       :type="field.type || 'text'"
       :label="field.label"
+      :rules="rules"
       v-model="input[field.name || field.label]"
     />
     <slot></slot>
@@ -21,7 +22,10 @@ export default {
   name: 'AuthForm',
   data() {
     return {
-      input: {}
+      input: {},
+      rules: [
+        value => !!value || "Required." 
+      ]
     }
   },
   props: ['fields', 'buttonLabel', 'onSubmit'],
