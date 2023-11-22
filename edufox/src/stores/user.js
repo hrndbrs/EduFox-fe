@@ -51,8 +51,6 @@ const useUserStore = defineStore("user", {
                 })
                 const token = data?.data?.token
 
-                // console.log(token)
-
                 if (token) {
                     window.snap.pay(token, {
                         onSuccess: async (result) => {
@@ -69,8 +67,8 @@ const useUserStore = defineStore("user", {
                                 console.log(JSON.stringify(err, null, 4))
                             }
                         },
-                        onPending: function (result) { console.log('pending'); console.log(result); },
-                        onError: function (result) { console.log('error'); console.log(result); },
+                        onPending: (result) => { console.log('pending'); console.log(result); },
+                        onError: (result) => { console.log('error'); console.log(result); },
                         onClose: () => console.log('customer closed the popup without finishing the payment')
                     })
                 }

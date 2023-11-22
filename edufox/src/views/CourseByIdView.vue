@@ -3,16 +3,19 @@ import { mapState, mapActions } from 'pinia'
 import client from '../api/config'
 import useUserStore from '../stores/user'
 import CustBtn from '../components/CustBtn.vue'
+import FeedbackCard from '../components/FeedbackCard.vue'
 
 export default {
   name: 'CourseByIdView',
   data() {
     return {
-      course: { Chapters: [] }
+      course: { Chapters: [] },
+      feedbacks: []
     }
   },
   components: {
-    CustBtn
+    CustBtn,
+    FeedbackCard
   },
   computed: {
     ...mapState(useUserStore, ['isLoggedIn', 'profile']),
@@ -26,8 +29,9 @@ export default {
       client
         .get('/course/' + this.$route.params.id)
         .then(({ data }) => {
-          // console.log(data)
           this.course = data.data
+          this.feedbacks = data.data.Feedbacks
+          // console.log(this.feedbacks)
         })
         .catch((err) => console.log(err))
     },
@@ -35,6 +39,9 @@ export default {
       this.enrollCourse(this.course.id)
         .then(() => this.$router.push('/enrollments'))
         .catch((err) => console.log(err))
+    },
+    getRating(num) {
+      return this.feedbacks.filter(({ rating }) => rating >= num && rating < num + 1).length
     }
   },
   created() {
@@ -83,7 +90,7 @@ export default {
                     half-increments
                     readonly
                   ></v-rating>
-                  <div class="px-3">3,360 ratings</div>
+                  <div class="px-3">{{ feedbacks.length }} rating(s)</div>
                 </div>
               </div>
             </div>
@@ -93,7 +100,7 @@ export default {
                 <v-list bg-color="transparent" class="d-flex flex-column-reverse" density="compact">
                   <v-list-item v-for="(rating, i) in 5" :key="i">
                     <v-progress-linear
-                      :model-value="rating * 15"
+                      :model-value="(getRating(rating) * 100) / feedbacks.length"
                       class="mx-n5"
                       color="yellow-darken-3"
                       height="20"
@@ -108,7 +115,7 @@ export default {
 
                     <template v-slot:append>
                       <div class="rating-values">
-                        <span class="d-flex justify-end"> {{ rating * 224 }} </span>
+                        <span class="d-flex justify-end"> {{ getRating(rating) }} </span>
                       </div>
                     </template>
                   </v-list-item>
@@ -132,65 +139,17 @@ export default {
               <v-expansion-panel-title>Chapter {{ panel.chapterNo }}</v-expansion-panel-title>
               <v-expansion-panel-text> {{ panel.name }} </v-expansion-panel-text>
             </v-expansion-panel>
-            <!-- <v-expansion-panel>
-              <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
-              <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
-              <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
-              <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
-              <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
-              <v-expansion-panel-text> Some content </v-expansion-panel-text>
-            </v-expansion-panel> -->
           </v-expansion-panels>
         </div>
-        <div>
+        <div class="bg-gray-100 flex flex-col items-center justify-center mt-12 gap-2">
+          <p class="text-4xl text-center font-semibold w-10/12">
+            What do students say about this course?
+          </p>
           <!-- review -->
-          <div class="h-[55vh] bg-gray-100 flex items-center justify-center">
-            <div class="px-5">
-              <div
-                class="bg-white max-w-xl rounded-2xl px-10 py-8 shadow-lg hover:shadow-2xl transition duration-500"
-              >
-                <div
-                  class="w-14 h-14 bg-yellow-500 rounded-full flex items-center justify-center font-bold text-white"
-                >
-                  LOGO
-                </div>
-                <div class="mt-4">
-                  <h1 class="text-lg text-gray-700 font-semibold hover:underline cursor-pointer">
-                    Product Review
-                  </h1>
-                  <div class="flex mt-2">
-                    <v-rating
-                      v-model="rating"
-                      readonly
-                      half-increments
-                      :model-value="5"
-                      :size="25"
-                      color="orange-lighten-1"
-                      class="mt-2"
-                    ></v-rating>
-                  </div>
-                  <p class="mt-4 text-md text-gray-600">
-                    But I must explain to you how all this mistaken idea of denouncing pleasure and
-                    praising pain was born and I will give you a complete account of the system, and
-                    expound the actual teachings of the great explorer of the truth, the
-                    master-builder of human happines.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <FeedbackCard v-for="(feedback, i) in feedbacks" :key="i" :feedback="feedback" />
+          <p v-if="feedbacks.length === 0" class="p-3 text-lg">
+            There is no review yet for this course
+          </p>
         </div>
       </div>
     </section>
