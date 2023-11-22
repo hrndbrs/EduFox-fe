@@ -56,7 +56,7 @@ export default {
     <div class="pb-13 pt-5 flex flex-row justify-evenly max-w-7xl mx-auto">
       <CardHome v-for="(course, i) in courses" :key="i" :course="course">
         <template #action>
-          <div class="py-3 px-9">
+          <div class="py-3 px-6">
             <RouterLink :to="`/courses/${course.id}`">
               <CustBtn> See Course Detail </CustBtn>
             </RouterLink>

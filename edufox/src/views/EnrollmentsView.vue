@@ -5,15 +5,19 @@
         <template #additional>
           <div class="pt-3 flex flex-col gap-1">
             <p class="font-semibold">Progress:</p>
-            <v-progress-linear :model-value="getProgress(enrollment)" color="amber" height="25">
-              {{ getProgress(enrollment) }}%
+            <v-progress-linear
+              :model-value="isFinished(enrollment) ? 100 : getProgress(enrollment)"
+              color="amber"
+              height="25"
+            >
+              {{ isFinished(enrollment) ? 100 : getProgress(enrollment) }}%
             </v-progress-linear>
           </div>
         </template>
         <template #action>
-          <div class="py-3 px-9">
-            <RouterLink :to="`/enrollments/${enrollment.Course.id}`">
-              <CustBtn> Continue This Lesson </CustBtn>
+          <div class="py-3 px-6">
+            <RouterLink :to="`/enrollments/${enrollment.Course.id}/${enrollment.curChapterId}`">
+              <CustBtn> {{ isFinished(enrollment) ? 'Review' : 'Continue This Lesson' }} </CustBtn>
             </RouterLink>
           </div>
         </template>
@@ -57,11 +61,19 @@ export default {
           this.enrollments = data.data
           this.numberOfPages = data.totalPage
           this.currentPage = +data.currentPage
+
+          // console.log(data)
+          // console.log(this.numberOfPages)
         })
         .catch((err) => console.log(JSON.stringify(err, null, 4)))
     },
     getProgress(enrollment) {
-      return Math.round((+enrollment.Chapter.chapterNo / enrollment.Course.Chapters.length) * 100)
+      return Math.round(
+        ((+enrollment.Chapter.chapterNo - 1) / enrollment.Course.Chapters.length) * 100
+      )
+    },
+    isFinished(enrollment) {
+      return enrollment.status === 'finished'
     }
   },
   watch: {

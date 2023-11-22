@@ -74,7 +74,6 @@ import client from '../api/config'
 import CustBtn from './CustBtn.vue'
 import { mapActions } from 'pinia'
 import useUserStore from '../stores/user'
-import axios from 'axios'
 
 export default {
   name: 'ProfileDetail',
