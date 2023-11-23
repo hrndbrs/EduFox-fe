@@ -35,7 +35,10 @@ export default {
           this.course = data.data
           this.feedbacks = data.data.Feedbacks
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          this.$router.push({ name: 'not-found' })
+          console.log(err)
+        })
     },
     addEnrollment() {
       this.enrollCourse(this.course.id)
