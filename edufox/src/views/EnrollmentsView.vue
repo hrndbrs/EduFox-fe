@@ -1,7 +1,21 @@
 <template>
   <div class="max-w-4xl items-center mx-auto flex flex-col gap-3 p-8">
-    <div class="flex flex-wrap gap-3 justify-center">
-      <CardHome v-for="(enrollment, i) in enrollments" :key="i" :course="enrollment.Course">
+    <Unauthorized v-if="!isLoggedIn" />
+    <div v-else class="flex flex-wrap gap-3 justify-center">
+      <div v-if="enrollments.length === 0" class="py-24">
+        <div class="max-w-sm">
+          <img
+            class="object-cover"
+            src="https://img.icons8.com/external-becris-lineal-becris/512/acacac/external-book-literary-genres-becris-lineal-becris.png"
+            alt="external-book-literary-genres-becris-lineal-becris"
+          />
+        </div>
+        <p class="text-[#7b7b7b] text-center text-lg">
+          <RouterLink to="/courses" class="underline text-orange-400">Click here</RouterLink> to add
+          courses to your study list
+        </p>
+      </div>
+      <CardHome v-else v-for="(enrollment, i) in enrollments" :key="i" :course="enrollment.Course">
         <template #additional>
           <div class="pt-3 flex flex-col gap-1">
             <p class="font-semibold">Progress:</p>
@@ -36,10 +50,14 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router'
+import { mapState } from 'pinia'
+import useUserStore from '../stores/user'
 import client from '../api/config'
 import CardHome from '../components/CardHome.vue'
 import ListPagination from '../components/ListPagination.vue'
 import CustBtn from '../components/CustBtn.vue'
+import Unauthorized from '../components/Unauthorized.vue'
 
 export default {
   name: 'EnrollmentsView',
@@ -54,7 +72,12 @@ export default {
   components: {
     CardHome,
     ListPagination,
-    CustBtn
+    CustBtn,
+    Unauthorized,
+    RouterLink
+  },
+  computed: {
+    ...mapState(useUserStore, ['isLoggedIn'])
   },
   methods: {
     getEnrollments() {

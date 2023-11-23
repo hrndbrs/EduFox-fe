@@ -6,7 +6,7 @@ export default {
 </script>
 
 <template>
-  <div class="max-w-sm rounded-lg shadow-lg">
+  <div class="max-w-sm rounded-lg shadow-lg flex flex-col justify-between">
     <div class="w-full aspect-[3/2] overflow-hidden">
       <img class="w-full object-cover" :src="course.imgUrl" />
     </div>
@@ -27,7 +27,7 @@ export default {
         >Premium</span
       >
       <slot name="additional"></slot>
+      <slot name="action"></slot>
     </div>
-    <slot name="action"></slot>
   </div>
 </template>

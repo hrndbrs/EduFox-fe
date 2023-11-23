@@ -53,7 +53,8 @@ export default {
           })).sort((a, b) => a.chapterNo - b.chapterNo)
         })
         .catch((err) => {
-          console.log(err.toJSON())
+          console.log(err)
+          this.$router.push({ name: 'not-found' })
         })
     },
     navigatePrev() {

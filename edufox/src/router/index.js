@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import useUserStore from '../stores/user'
 import MainLayout from "../layouts/MainLayout.vue"
 import AuthLayout from "../layouts/AuthLayout.vue"
+import NotFound from "../views/NotFound.vue"
 
 const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
@@ -63,6 +64,11 @@ const router = createRouter({
           component: () => import('../views/RegisterView.vue')
         },
       ]
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFound
     }
   ]
 })
