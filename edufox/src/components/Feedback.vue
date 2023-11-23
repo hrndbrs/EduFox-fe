@@ -35,15 +35,16 @@ export default {
       })
         .then(({ data }) => {
           // console.log(data)
-          const { access_token, statusCode } = data
+          const { access_token } = data
           if (access_token) {
             localStorage.setItem('access_token', access_token)
             this.checkCredentials()
-          }
-          if (statusCode === 200)
-            createToast('Your review for this course has been updated', 'success')
-          if (statusCode === 201)
             createToast('Thank you for sharing your review with us!', 'success')
+            return setTimeout(() => {
+              createToast('+5 pts have been added to your account')
+            }, 1200)
+          }
+          createToast('Your review for this course has been updated', 'success')
           this.input = {
             ...initialValue
           }

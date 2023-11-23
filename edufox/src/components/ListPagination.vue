@@ -1,5 +1,5 @@
 <template>
-  <v-pagination v-if="length > 1" :length="length" v-model="current" />
+  <v-pagination :length="length" v-model="current" />
 </template>
 
 <script>

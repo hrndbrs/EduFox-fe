@@ -29,7 +29,7 @@
           </div>
         </template>
         <template #action>
-          <div class="py-3 px-6">
+          <div class="py-3">
             <RouterLink :to="`/enrollments/${enrollment.Course.id}/${enrollment.curChapterId}`">
               <CustBtn>
                 {{
