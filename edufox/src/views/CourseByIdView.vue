@@ -73,7 +73,7 @@ export default {
         </div>
         <div style="background-color: #fff" class="rounded" id="bd">
           <div class="flex justify-start p-2">
-            <div class="w-[18rem] aspect-[7/5] bg-slate-400 flex">
+            <div class="w-[18rem] aspect-[7/5] bg-slate-400 flex items-center justify-center">
               <img :src="course.imgUrl" alt="" class="object-cover" />
             </div>
             <div class="py-5 px-5 flex-1">
