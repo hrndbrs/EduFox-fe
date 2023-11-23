@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl items-center mx-auto flex flex-col gap-3">
+  <div class="max-w-4xl items-center mx-auto flex flex-col gap-3 p-8">
     <div class="flex flex-wrap gap-3 justify-center">
       <CardHome v-for="(enrollment, i) in enrollments" :key="i" :course="enrollment.Course">
         <template #additional>

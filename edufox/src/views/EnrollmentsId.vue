@@ -2,6 +2,7 @@
 import Feedback from '../components/Feedback.vue'
 import client from '../api/config'
 import VideoPlayer from '../components/VideoPlayer.vue'
+import { createToast } from '../utils/toastify'
 
 export default {
   name: 'EnrollmentId',
@@ -77,7 +78,12 @@ export default {
           .then(() => {
             this.$router.push(`/enrollments/${id}/${nextChapter.id}`)
           })
-          .catch((err) => console.log(JSON.stringify(err, null, 4)))
+          .catch((err) => {
+            if (err.response.data.message) {
+              createToast(err.response.data.message, 'error')
+            }
+            // console.log(JSON.stringify(err, null, 4))
+          })
       else this.$router.push(`/enrollments/${id}/${nextChapter.id}`)
     },
     finishCourse() {
@@ -90,8 +96,20 @@ export default {
           },
           { headers: { access_token: localStorage.getItem('access_token') } }
         )
-        .then(() => this.getEnrollment())
-        .catch((err) => console.log(JSON.stringify(err, null, 4)))
+        .then(() => {
+          this.getEnrollment()
+          createToast("You've reached the end of this class. よくできました！")
+          setTimeout(
+            () => createToast('Please help us improve this course by leaving a review'),
+            1200
+          )
+        })
+        .catch((err) => {
+          if (err.response.data.message) {
+            createToast(err.response.data.message, 'error')
+          }
+          // console.log(JSON.stringify(err, null, 4))
+        })
     }
   },
   watch: {
@@ -111,7 +129,6 @@ export default {
     <section class="w-11/12 h-100 flex justify-center" id="bd">
       <div class="w-11/12 h-100 ml-5 py-10" id="bd">
         <div class="mb-8" id="bd">
-          <!-- <p class="text-4xl">{{ `${courseName} : ${chapter.name}` }}</p> -->
           <p class="text-2xl font-extralight">{{ `${course.name} #${chapter.chapterNo} :` }}</p>
           <p class="text-4xl font-medium">{{ chapter.name }}</p>
         </div>

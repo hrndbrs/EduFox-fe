@@ -1,6 +1,7 @@
 <script>
 import { mapActions } from 'pinia'
 import useUserStore from '../stores/user'
+import { createToast } from '../utils/toastify'
 import client from '../api/config'
 
 const initialValue = {
@@ -21,7 +22,7 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['checkCredentials']),
     handleSubmit() {
-      console.log(this.input)
+      // console.log(this.input)
       client(`/feedback/${this.courseId}`, {
         method: 'post',
         headers: {
@@ -34,14 +35,25 @@ export default {
       })
         .then(({ data }) => {
           // console.log(data)
-          if (data.access_token) localStorage.setItem('access_token', data.access_token)
-          this.checkCredentials()
+          const { access_token, statusCode } = data
+          if (access_token) {
+            localStorage.setItem('access_token', access_token)
+            this.checkCredentials()
+          }
+          if (statusCode === 200)
+            createToast('Your review for this course has been updated', 'success')
+          if (statusCode === 201)
+            createToast('Thank you for sharing your review with us!', 'success')
           this.input = {
             ...initialValue
           }
         })
         .catch((err) => {
           console.log(err)
+          if (err.response.data.message) {
+            createToast(err.response.data.message, 'error')
+          }
+          // console.log(JSON.stringify(err, null, 4))
         })
     }
   }

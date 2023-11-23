@@ -4,6 +4,7 @@ import { mapActions } from 'pinia'
 import useUserStore from '../stores/user'
 import AuthForm from '../components/AuthForm.vue'
 import emailValidator from '../helpers/emailValidator'
+import { createToast } from '../utils/toastify'
 
 export default {
   name: 'LoginView',
@@ -16,8 +17,11 @@ export default {
       try {
         await this.handleLogin(input)
         this.$router.push('/')
+        createToast('Welcome to EduFox', 'success')
       } catch (err) {
-        console.log(JSON.stringify(err, null, 4))
+        if (err.response.data.message) {
+          createToast(err.response.data.message, 'error')
+        }
       }
     }
   },
@@ -31,7 +35,7 @@ export default {
 <template>
   <div class="md:shrink-0 max-md:flex-1 max-lg:p-8">
     <div class="mb-12">
-      <h1 class="max-md:text-center">Welcome Back!</h1>
+      <h1 class="max-md:text-center font-semibold text-3xl">Welcome Back!</h1>
       <p class="text-slate-400 max-md:text-center max-md:px-8">
         Login to see all of the contents tailored just for you
       </p>

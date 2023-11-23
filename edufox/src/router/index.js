@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout.vue"
 import AuthLayout from "../layouts/AuthLayout.vue"
 
 const router = createRouter({
+  scrollBehavior: () => ({ top: 0 }),
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

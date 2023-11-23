@@ -43,7 +43,7 @@
         variant="tonal"
         color="green"
         size="x-small"
-        @click="midTrans"
+        @click="handlePayment"
         >Go Premium</v-btn
       >
       <v-btn variant="tonal" color="red" size="x-small" v-else>Premium User</v-btn>
@@ -51,18 +51,7 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <CustBtn
-        color="red"
-        :block="false"
-        :onClick="
-          () => {
-            handleLogout()
-            $router.push('/')
-            if (callback) callback()
-          }
-        "
-        >Logout</CustBtn
-      >
+      <CustBtn color="red" :block="false" :onClick="logout">Logout</CustBtn>
     </v-card-actions>
   </v-card>
 </template>
@@ -72,13 +61,15 @@ import client from '../api/config'
 import CustBtn from './CustBtn.vue'
 import { mapActions } from 'pinia'
 import useUserStore from '../stores/user'
+import { createToast } from '../utils/toastify'
 
 export default {
   name: 'ProfileDetail',
   props: ['profile', 'callback', 'mobile'],
   data() {
     return {
-      changePict: null
+      changePict: null,
+      uploading: false
     }
   },
   components: {
@@ -88,6 +79,18 @@ export default {
     ...mapActions(useUserStore, ['handleLogout', 'midTrans', 'checkCredentials']),
     clickPicture() {
       document.getElementById('file').click()
+    },
+    logout() {
+      this.handleLogout()
+      this.$router.push('/')
+      createToast('See you again :D', 'success')
+      if (this.callback) this.callback()
+    },
+    async handlePayment() {
+      await this.midTrans((notification) => {
+        if (notification) return createToast(notification.message, notification.type)
+        createToast('Congratulation! Your account has been upgraded to premium', 'success')
+      })
     },
     async changePicture(event) {
       try {
@@ -102,8 +105,9 @@ export default {
         })
         localStorage.setItem('access_token', data.access_token)
         this.checkCredentials()
-      } catch (error) {
-        console.log(error)
+        createToast('Profile picture has been updated', 'success')
+      } catch {
+        createToast('An error has occured\nPlease try again', 'error')
       }
     }
   }

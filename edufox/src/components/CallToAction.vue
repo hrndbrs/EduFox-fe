@@ -12,13 +12,15 @@
       And let your child immerse themselves in a captivating world of interactive learning
       experiences that extend far beyond traditional classroom settings
     </p>
-    <RouterLink to="/register">
+    <RouterLink to="/register" v-if="!isLoggedIn">
       <CustBtn :block="false">Try EduFox For Free</CustBtn>
     </RouterLink>
   </div>
 </template>
 
 <script>
+import { mapState } from 'pinia'
+import useUserStore from '../stores/user'
 import { RouterLink } from 'vue-router'
 import CustBtn from './CustBtn.vue'
 
@@ -27,6 +29,9 @@ export default {
   components: {
     CustBtn,
     RouterLink
+  },
+  computed: {
+    ...mapState(useUserStore, ['isLoggedIn'])
   }
 }
 </script>

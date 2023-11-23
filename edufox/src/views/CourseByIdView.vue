@@ -1,5 +1,7 @@
 <script>
+import { RouterLink } from 'vue-router'
 import { mapState, mapActions } from 'pinia'
+import { createToast } from '../utils/toastify'
 import client from '../api/config'
 import useUserStore from '../stores/user'
 import CustBtn from '../components/CustBtn.vue'
@@ -15,7 +17,8 @@ export default {
   },
   components: {
     CustBtn,
-    FeedbackCard
+    FeedbackCard,
+    RouterLink
   },
   computed: {
     ...mapState(useUserStore, ['isLoggedIn', 'profile']),
@@ -31,14 +34,21 @@ export default {
         .then(({ data }) => {
           this.course = data.data
           this.feedbacks = data.data.Feedbacks
-          // console.log(this.feedbacks)
         })
         .catch((err) => console.log(err))
     },
     addEnrollment() {
       this.enrollCourse(this.course.id)
-        .then(() => this.$router.push('/enrollments'))
-        .catch((err) => console.log(err))
+        .then(() => {
+          this.$router.push('/enrollments')
+          createToast('Great! You can start your learning', 'success')
+        })
+        .catch((err) => {
+          // console.log(err.response.data)
+          if (err.response.data.message) {
+            createToast(err.response.data.message, 'error')
+          }
+        })
     },
     getRating(num) {
       return this.feedbacks.filter(({ rating }) => rating >= num && rating < num + 1).length
@@ -75,7 +85,9 @@ export default {
               <CustBtn className="mt-6" v-else-if="isLoggedIn" color="red-lighten-2"
                 >Only Premium User Can Enroll To This Course</CustBtn
               >
-              <CustBtn className="mt-6" v-else color="red-lighten-2">Login To Enroll</CustBtn>
+              <RouterLink v-else to="/login">
+                <CustBtn className="mt-6" color="red-lighten-2">Login To Enroll</CustBtn>
+              </RouterLink>
             </div>
           </div>
           <div class="flex justify-start">
@@ -84,7 +96,7 @@ export default {
               <div>
                 <div class="d-flex align-center flex-column my-auto">
                   <div class="text-h2 mt-5">
-                    {{ course.rating }}
+                    {{ Math.floor(course.rating * 100) / 100 }}
                     <span class="text-h6 ml-n3">/5</span>
                   </div>
 
