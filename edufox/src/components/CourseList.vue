@@ -1,7 +1,7 @@
 <template>
   <li>
     <v-card>
-      <div class="d-flex flex-no-wrap justify-space-between">
+      <div class="flex max-sm:flex-col flex-no-wrap justify-between">
         <div>
           <v-card-title class="text-h5">
             {{ course.name }}

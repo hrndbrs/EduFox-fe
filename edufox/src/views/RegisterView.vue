@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import client from '../api/config'
 import AuthForm from '../components/AuthForm.vue'
-import { toast } from 'vue3-toastify'
+import { createToast } from '../utils/toastify'
 
 export default {
   name: 'RegisterView',
@@ -10,27 +10,15 @@ export default {
     handleSubmit(input) {
       client
         .post('/register', input)
-        .then(({ data }) => {
-          toast("You're Account Has Been Create", {
-            position: 'top-center',
-            theme: 'colored',
-            type: 'success',
-            pauseOnHover: true
-          })
+        .then(() => {
           this.$router.push('/login')
+          createToast('Great! Your new accout has been created!', 'success')
         })
         .catch((err) => {
-          console.log(err)
-          if(err.response.data.message) {
-          toast(`${err.response.data.message}`, {
-          position: 'top-center',
-          theme: 'colored',
-          type: "error",
-          pauseOnHover: false,
-          autoClose: 2500
-        })
-        }
-          console.log(JSON.stringify(err, null, 4))
+          if (err.response.data.message) {
+            createToast(err.response.data.message, 'error')
+          }
+          // console.log(JSON.stringify(err, null, 4))
         })
     }
   },
@@ -51,7 +39,7 @@ export default {
   </div>
   <div class="md:shrink-0 max-md:flex-1 max-lg:p-8">
     <div class="mb-12">
-      <h1 class="max-md:text-center">Become an EduFox</h1>
+      <h1 class="max-md:text-center font-semibold text-3xl">Become an EduFox</h1>
       <p class="text-slate-400 max-md:text-center max-md:px-8">
         Become a member and learn together with other EduFoxes
       </p>

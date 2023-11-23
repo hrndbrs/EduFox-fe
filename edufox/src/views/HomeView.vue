@@ -1,8 +1,9 @@
 <script>
 import { RouterLink } from 'vue-router'
+import client from '../api/config'
+import CallToAction from '../components/CallToAction.vue'
 import CustBtn from '../components/CustBtn.vue'
 import CardHome from '../components/CardHome.vue'
-import client from '../api/config'
 
 export default {
   data() {
@@ -13,7 +14,8 @@ export default {
   components: {
     CardHome,
     RouterLink,
-    CustBtn
+    CustBtn,
+    CallToAction
   },
   created() {
     client.get('/course').then(({ data }) => {
@@ -29,12 +31,13 @@ export default {
       <div class="h-full w-6/12" id="font">
         <div class="py-40 border-black mr-40">
           <p class="font-semibold text-4xl text-blue-900" id="font">
-            Online Course Terbaik Bagi Buah Hati Anda
+            Unleash Your Child's Potential with EduFox
           </p>
           <p class="my-10 font-normal">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas provident voluptatem
-            deserunt nam, modi corrupti. Explicabo harum praesentium cupiditate suscipit dolorum
-            distinctio. Doloremque recusandae aut nam blanditiis distinctio rerum maiores?
+            EduFox is the premier online learning platform that empowers children to explore their
+            passions, ignite their curiosity, and excel in their academic pursuits. Our engaging and
+            interactive courses, designed by experienced educators, cater to a diverse range of
+            subjects and interests, fostering a lifelong love of learning.
           </p>
           <div></div>
         </div>
@@ -48,15 +51,15 @@ export default {
       </div>
     </div>
   </section>
-  <section id="bd" class="mt-10">
+  <section class="flex flex-col items-center mt-10">
     <div class="w-100 px-10 py-4" id="bd">
-      <p class="font-medium mb-2 text-orange-400" id="font">Program Edufox</p>
-      <p class="font-semibold text-xl" id="font">Course Tersedia Di Edufox</p>
+      <p class="font-medium mb-2 text-orange-400" id="font">Programs At EduFox</p>
+      <p class="font-semibold text-xl" id="font">Available Courses</p>
     </div>
-    <div class="pb-13 pt-5 flex flex-row justify-evenly max-w-7xl mx-auto">
+    <div class="p-5 flex flex-row gap-8 justify-evenly flex-wrap max-w-7xl mx-auto">
       <CardHome v-for="(course, i) in courses" :key="i" :course="course">
         <template #action>
-          <div class="py-3 px-9">
+          <div class="py-3 px-6">
             <RouterLink :to="`/courses/${course.id}`">
               <CustBtn> See Course Detail </CustBtn>
             </RouterLink>
@@ -64,15 +67,17 @@ export default {
         </template>
       </CardHome>
     </div>
-    <div id="bd" class="text-center mb-10">
-      <RouterLink class="rounded" to="/courses">See All </RouterLink>
+    <div
+      class="mb-10 hover:scale-110 hover:-translate-y-1 hover:font-semibold transition-all duration-300"
+    >
+      <RouterLink class="rounded" to="/courses">See All</RouterLink>
     </div>
+    <CallToAction />
   </section>
 </template>
 
 <style scoped>
 img {
-  /* background-image: url('https://www.pandasecurity.com/en/mediacenter/src/uploads/2016/07/schoolchildren-using-mobile-phone-at-classroom.jpg'); */
   width: 650px;
   height: 615px;
   object-fit: cover;

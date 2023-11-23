@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout.vue"
 import AuthLayout from "../layouts/AuthLayout.vue"
 
 const router = createRouter({
+  scrollBehavior: () => ({ top: 0 }),
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -37,7 +38,7 @@ const router = createRouter({
           component: () => import("../views/CourseByIdView.vue"),
         },
         {
-          path: "/enrollments/:id",
+          path: "/enrollments/:enrollmentId/:chapterId",
           name: "course-detail",
           component: () => import("../views/EnrollmentsId.vue")
         }

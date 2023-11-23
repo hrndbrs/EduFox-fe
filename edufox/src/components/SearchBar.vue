@@ -1,6 +1,6 @@
 <template>
   <div
-    class="max-sm:fixed max-sm:top-20 sm:sticky pl-6 top-4 sm:w-5/12 xl:w-3/12 inline-block align-top z-[500]"
+    class="max-sm:fixed max-sm:top-24 sm:sticky pl-6 top-4 sm:w-5/12 xl:w-3/12 inline-block align-top z-[500]"
   >
     <v-btn
       class="mb-3 rounded-md"
@@ -14,9 +14,9 @@
     >
       Filter
     </v-btn>
-    <div class="pl-4" v-show="open">
+    <div class="pl-4 overflow-scroll" v-show="open">
       <form
-        class="justify-center bg-white px-6 py-8 rounded-lg sm:h-[80dvh]"
+        class="justify-center bg-white px-6 py-8 rounded-lg sm:min-h-[80dvh]"
         @submit.prevent="handleSubmit"
       >
         <p class="mb-2">Search course by name</p>

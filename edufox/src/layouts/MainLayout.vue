@@ -1,21 +1,22 @@
 <template>
-  <div>
+  <div class="min-h-screen relative">
     <NavBar />
     <RouterView />
-    <Footer />
+    <CustFooter />
   </div>
 </template>
 
 <script>
 import { RouterView } from 'vue-router'
 import NavBar from '../components/NavBar.vue'
-import Footer from '../components/Footer.vue'
+import CustFooter from '../components/CustFooter.vue'
+
 export default {
   name: 'MainLayout',
   components: {
     NavBar,
     RouterView,
-    Footer
+    CustFooter
   }
 }
 </script>

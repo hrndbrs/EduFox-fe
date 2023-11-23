@@ -1,19 +1,31 @@
 <template>
-  <div class="max-w-4xl items-center mx-auto flex flex-col gap-3">
+  <div class="max-w-4xl items-center mx-auto flex flex-col gap-3 p-8">
     <div class="flex flex-wrap gap-3 justify-center">
       <CardHome v-for="(enrollment, i) in enrollments" :key="i" :course="enrollment.Course">
         <template #additional>
           <div class="pt-3 flex flex-col gap-1">
             <p class="font-semibold">Progress:</p>
-            <v-progress-linear :model-value="getProgress(enrollment)" color="amber" height="25">
-              {{ getProgress(enrollment) }}%
+            <v-progress-linear
+              :model-value="isFinished(enrollment) ? 100 : getProgress(enrollment)"
+              color="amber"
+              height="25"
+            >
+              {{ `${finishedChapters(enrollment)} of ${totalChapters(enrollment)} Chapter(s)` }}
             </v-progress-linear>
           </div>
         </template>
         <template #action>
-          <div class="py-3 px-9">
-            <RouterLink :to="`/enrollments/${enrollment.Course.id}`">
-              <CustBtn> Continue This Lesson </CustBtn>
+          <div class="py-3 px-6">
+            <RouterLink :to="`/enrollments/${enrollment.Course.id}/${enrollment.curChapterId}`">
+              <CustBtn>
+                {{
+                  isFinished(enrollment)
+                    ? 'Review'
+                    : isOnProgress(enrollment)
+                      ? 'Continue This Lesson'
+                      : 'Start Learning'
+                }}
+              </CustBtn>
             </RouterLink>
           </div>
         </template>
@@ -61,7 +73,23 @@ export default {
         .catch((err) => console.log(JSON.stringify(err, null, 4)))
     },
     getProgress(enrollment) {
-      return Math.round((+enrollment.Chapter.chapterNo / enrollment.Course.Chapters.length) * 100)
+      return Math.round(
+        ((+enrollment.Chapter.chapterNo - 1) / this.totalChapters(enrollment)) * 100
+      )
+    },
+    isOnProgress(enrollment) {
+      return enrollment.status === 'on progress'
+    },
+    isFinished(enrollment) {
+      return enrollment.status === 'finished'
+    },
+    totalChapters(enrollment) {
+      return enrollment.Course.Chapters.length
+    },
+    finishedChapters(enrollment) {
+      return this.isFinished(enrollment)
+        ? this.totalChapters(enrollment)
+        : +enrollment.Chapter.chapterNo - 1
     }
   },
   watch: {

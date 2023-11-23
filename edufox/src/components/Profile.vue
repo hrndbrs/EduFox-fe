@@ -22,13 +22,7 @@ export default {
           {{ profile.userUsername }}
         </span>
         <v-avatar>
-          <v-img
-            :src="
-              profile.userProfilePict ||
-              'https://img.icons8.com/ios/100/gender-neutral-user--v1.png'
-            "
-            alt="gender-neutral-user--v1"
-          />
+          <v-img :src="profile.userProfilePict || '/avatar.jpeg'" alt="gender-neutral-user--v1" />
         </v-avatar>
       </div>
     </template>
